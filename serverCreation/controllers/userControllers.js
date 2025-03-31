@@ -1,4 +1,5 @@
 const users=require('../database/models/userModels')
+const jwt=require('jsonwebtoken')
 
 
 exports.registerControllers=async(req,res)=>{
@@ -26,14 +27,23 @@ exports.registerControllers=async(req,res)=>{
 
 
 exports.loginController=async(req,res)=>{
-
+  // console.log(req.body);
     const{email,password}=req.body
+    // console.log(email);
+    // console.log(password);
+    
+    
+    
+    
 
    try{
     const existingUser= await users.findOne({email,password})
 
     if(existingUser){
-        res.status(200).json("login sucessfull")
+      const token=jwt.sign({userId:existingUser._id},process.env.JWTSECRETKEY)
+
+      
+        res.status(200).json({user:existingUser,token})
     }
     else{
         res.status(401).json("invalid credentails")
@@ -42,6 +52,7 @@ exports.loginController=async(req,res)=>{
    }
    catch(err){
     console.log(err);
+    res.status(500).json({"message":err})
     
    }
 

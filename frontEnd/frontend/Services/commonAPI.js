@@ -1,22 +1,22 @@
-import axios from "axios";
-import baseURL from "./baseurl";
+import baseurl from './baseurl'
+import axios from 'axios'
 
 
-const commonAPI=async(httpMethod,endpoints,requestBody)=>{
+ const commonAPI=async(httpmethod,endpoints,requestedBody)=>{
+
     const requestedConfig={
-        method:httpMethod,
-        url:baseURL+endpoints,
-        data:requestBody
+        method:httpmethod,
+        url:baseurl+endpoints,
+        data:requestedBody
     }
 
     return await axios(requestedConfig)
     .then((res)=>{
         return res
-
     })
     .catch((err)=>{
         return err
     })
+
 }
 export default commonAPI
-
